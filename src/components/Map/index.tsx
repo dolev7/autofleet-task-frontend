@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Polygon, OverlayView, GoogleMap, useJsApiLoader} from '@react-google-maps/api';
+import {fetchVehiclesLocations, fetchVehiclesInPolygon} from '../../../src/network'
 
 
-const Map = ({polygonCoordinates, setPolygonCoordinates, vehiclesLocations}: any) => {
+const Map = ({polygonCoordinates, setPolygonCoordinates}: any) => {
   const [showPolygon, setShowPolygon] = useState(false);
   const [showVehicles, setShowVehicles] = useState(false);
+  const [vehiclesLocations, setVehiclesLocations] = useState([]);
+
 
   useEffect(() => {
     setShowPolygon(true);
@@ -34,7 +37,7 @@ const Map = ({polygonCoordinates, setPolygonCoordinates, vehiclesLocations}: any
 
   const mapContainerStyle = {
     width: '100%',
-    height: '400px',
+    height: '100vh',
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -52,6 +55,21 @@ const options = {
   strokeColor: 'red',
   strokeOpacity: 1,
   strokeWeight: 2,
+};
+
+const handleAllVehiclesClick = async () => {
+  const vehiclesLocations = await fetchVehiclesLocations();
+  console.log(vehiclesLocations);
+};
+const handlePolygonClick = async () => {
+  if (polygonCoordinates.length === 0) {
+    //change to toaser
+    console.log ('cant find vehicles inside an empty polygon')
+    return;
+  }
+  const vehiclesLocations = await fetchVehiclesInPolygon(polygonCoordinates);
+  setVehiclesLocations(vehiclesLocations);
+  console.log(vehiclesLocations);
 };
 
   return (
@@ -78,6 +96,20 @@ const options = {
           options={options}
       />
   }
+            <div
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+      <button onClick={handleAllVehiclesClick}>Get All Vehicles</button>
+      <button onClick={handlePolygonClick}>Get Vehicles in polygon</button>
+          </div>
+
       </GoogleMap>
     </div>
   );
