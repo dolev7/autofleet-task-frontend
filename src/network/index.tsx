@@ -12,7 +12,16 @@ export const fetchVehiclesLocations = async () => {
 export const fetchVehiclesInPolygon = async (coordinates: any) => {
   const jsonCoordinates = JSON.stringify(coordinates);
   const encodedCoordinates = encodeURIComponent(jsonCoordinates);
-  const { data: vehiclesInPolygon } = await network.get(`vehicles/in-polygon?coordinates[]=${encodedCoordinates}`);
-  return vehiclesInPolygon;
+  try {
+    const { data: vehiclesInPolygon, status } = await network.get(`vehicles/in-polygon?coordinates[]=${encodedCoordinates}`);
+    if (status !== 200) {
+      throw new Error(`got error ${status}`);
+    } else {
+      return vehiclesInPolygon;
+    }
+    } catch (error : any) {
+    console.log('Error:', error.message);
+    return [];
+  }  
 };
 

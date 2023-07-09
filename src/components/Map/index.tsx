@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Polygon, OverlayView, GoogleMap, useJsApiLoader} from '@react-google-maps/api';
 import {fetchVehiclesLocations, fetchVehiclesInPolygon} from '../../../src/network'
-
+import {Button} from './Button'
 
 const Map = ({polygonCoordinates, setPolygonCoordinates}: any) => {
   const [showPolygon, setShowPolygon] = useState(false);
   const [showVehicles, setShowVehicles] = useState(false);
-  const [vehiclesLocations, setVehiclesLocations] = useState([]);
+  const [vehiclesDetails, setVehiclesDetails] = useState([]);
 
 
   useEffect(() => {
@@ -14,8 +14,10 @@ const Map = ({polygonCoordinates, setPolygonCoordinates}: any) => {
   }, [polygonCoordinates]);
 
   useEffect(() => {
-    setShowVehicles(true);
-  }, [vehiclesLocations]);
+    if (vehiclesDetails.length > 0) {
+      setShowVehicles(true);
+    }
+  }, [vehiclesDetails]);
 
   const handleMapClick = (event : any) => {
     const lat = event.latLng.lat();
@@ -58,18 +60,18 @@ const options = {
 };
 
 const handleAllVehiclesClick = async () => {
-  const vehiclesLocations = await fetchVehiclesLocations();
-  console.log(vehiclesLocations);
+  const vehiclesDetails = await fetchVehiclesLocations();
+  setVehiclesDetails(vehiclesDetails);
+  console.log(vehiclesDetails);
 };
 const handlePolygonClick = async () => {
   if (polygonCoordinates.length === 0) {
-    //change to toaser
     console.log ('cant find vehicles inside an empty polygon')
     return;
   }
-  const vehiclesLocations = await fetchVehiclesInPolygon(polygonCoordinates);
-  setVehiclesLocations(vehiclesLocations);
-  console.log(vehiclesLocations);
+  const vehiclesDetails = await fetchVehiclesInPolygon(polygonCoordinates);
+  setVehiclesDetails(vehiclesDetails);
+  console.log(vehiclesDetails);
 };
 
   return (
@@ -81,9 +83,9 @@ const handlePolygonClick = async () => {
         onClick={handleMapClick}
       >
         {showVehicles && 
-        vehiclesLocations.map((vehicle : any, index : any) => (
+        vehiclesDetails.map((vehicle : any) => (
         <OverlayView
-          key={index}
+          key={vehicle.id}
           position={vehicle.location}
           mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
           >
@@ -96,20 +98,27 @@ const handlePolygonClick = async () => {
           options={options}
       />
   }
-            <div
-            style={{
-              position: 'absolute',
-              top: '10px',
-              left: '10px',
-              zIndex: 9999,
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-      <button onClick={handleAllVehiclesClick}>Get All Vehicles</button>
-      <button onClick={handlePolygonClick}>Get Vehicles in polygon</button>
-          </div>
-
+    <div
+        style={{
+          position: 'absolute',
+          top: '50px',
+          left: '10px',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+      <Button 
+        text={'Get All Vehicles'}
+        hoverText={'Click here to get all vehicles'}
+        handleClick={handleAllVehiclesClick}
+      />
+      <Button 
+        text={'Get Vehicles in polygon'}
+        hoverText={'Click here after drawing a polygon on the map'}
+        handleClick={handlePolygonClick}
+      />
+    </div>
       </GoogleMap>
     </div>
   );
