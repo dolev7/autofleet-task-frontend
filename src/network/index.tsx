@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = 'https://autofleet-task-245f137c7b1e.herokuapp.com/';
 const network = axios.create({ baseURL: BACKEND_URL });
 
 

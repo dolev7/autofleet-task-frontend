@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
-import { Polygon, OverlayView, GoogleMap, useJsApiLoader} from '@react-google-maps/api';
+import { Polygon, Marker, OverlayView, GoogleMap, useJsApiLoader} from '@react-google-maps/api';
 import {fetchVehiclesLocations, fetchVehiclesInPolygon} from '../../../src/network'
 import {Button} from './Button'
 
 const Map = ({polygonCoordinates, setPolygonCoordinates}: any) => {
   const [showPolygon, setShowPolygon] = useState(false);
   const [showVehicles, setShowVehicles] = useState(false);
+  const [showFirstCoord, setsShowFirstCoord] = useState(false);
   const [vehiclesDetails, setVehiclesDetails] = useState([]);
 
 
   useEffect(() => {
     setShowPolygon(true);
+  }, [polygonCoordinates]);
+
+  useEffect(() => {
+    if (polygonCoordinates.length == 1) {
+      setsShowFirstCoord(true);
+    }
+    else {
+      setsShowFirstCoord(false);
+    }
   }, [polygonCoordinates]);
 
   useEffect(() => {
@@ -92,6 +102,11 @@ const handlePolygonClick = async () => {
           <CarOverlay />
         </OverlayView>
       ))}
+      {showFirstCoord && 
+      <Marker
+        position={polygonCoordinates[0]}
+      />
+  }
       {showPolygon && 
       <Polygon
           paths={polygonCoordinates}
@@ -109,14 +124,14 @@ const handlePolygonClick = async () => {
         }}
       >
       <Button 
-        text={'Get All Vehicles'}
-        hoverText={'Click here to get all vehicles'}
-        handleClick={handleAllVehiclesClick}
-      />
-      <Button 
-        text={'Get Vehicles in polygon'}
+        text={'Show Vehicles in polygon'}
         hoverText={'Click here after drawing a polygon on the map'}
         handleClick={handlePolygonClick}
+      />
+      <Button 
+        text={'Show All Vehicles'}
+        hoverText={'Click here to get all vehicles'}
+        handleClick={handleAllVehiclesClick}
       />
     </div>
       </GoogleMap>
