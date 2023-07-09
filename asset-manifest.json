@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/autofleet-task-frontend/static/css/main.e61de8e8.css",
-    "main.js": "/autofleet-task-frontend/static/js/main.a006a86d.js",
+    "main.js": "/autofleet-task-frontend/static/js/main.a2caadf3.js",
     "static/js/787.48e74ea3.chunk.js": "/autofleet-task-frontend/static/js/787.48e74ea3.chunk.js",
     "index.html": "/autofleet-task-frontend/index.html",
     "main.e61de8e8.css.map": "/autofleet-task-frontend/static/css/main.e61de8e8.css.map",
-    "main.a006a86d.js.map": "/autofleet-task-frontend/static/js/main.a006a86d.js.map",
+    "main.a2caadf3.js.map": "/autofleet-task-frontend/static/js/main.a2caadf3.js.map",
     "787.48e74ea3.chunk.js.map": "/autofleet-task-frontend/static/js/787.48e74ea3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e61de8e8.css",
-    "static/js/main.a006a86d.js"
+    "static/js/main.a2caadf3.js"
   ]
 }
