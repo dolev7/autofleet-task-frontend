@@ -1,7 +1,7 @@
 ### Autofleet task
-![image](https://github.com/dolev7/autofleet-task-frontend/assets/68538339/b515cfb9-9b6b-47c2-b954-47d7fe866118)
+![image](https://github.com/dolev7/autofleet-task-frontend/assets/68538339/21e27074-ed5d-403a-922b-951e20821af8)
 
-## Show Vehicles inside polygon
+## Show Vehicles in polygon
 Create a Polygon on the map by clicking on it. 
 Clicking on 'Show Vehicles in polygon' will display all the vehicles wthin it.
 
