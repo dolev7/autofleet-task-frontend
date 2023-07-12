@@ -83,6 +83,10 @@ const handlePolygonClick = async () => {
   setVehiclesDetails(vehiclesDetails);
   console.log(vehiclesDetails);
 };
+const handleResetScreenClick = async () => {
+  setVehiclesDetails([]);
+  setPolygonCoordinates([])
+};
 
   return (
     <div style={{ height: '400px', width: '100%' }}>
@@ -132,6 +136,11 @@ const handlePolygonClick = async () => {
         text={'Show All Vehicles'}
         hoverText={'Click here to get all vehicles'}
         handleClick={handleAllVehiclesClick}
+      />
+      <Button 
+        text={'Reset Screen'}
+        hoverText={''}
+        handleClick={handleResetScreenClick}
       />
     </div>
       </GoogleMap>
